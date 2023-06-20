@@ -1,5 +1,9 @@
 package database;
 
+import model.Medico;
+import model.Paciente;
+import model.Turno;
+
 import java.sql.*;
 
 public class DatabaseManager {

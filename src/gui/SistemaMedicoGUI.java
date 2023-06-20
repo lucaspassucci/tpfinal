@@ -7,6 +7,8 @@ import model.Turno;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,8 +172,12 @@ public class SistemaMedicoGUI {
                 gui.actualizarTablaPacientes(pacientes);
 
                 List<Turno> turnos = new ArrayList<>();
-                turnos.add(new Turno(1, medicos.get(0), pacientes.get(0), "2023-06-19 10:00"));
-                turnos.add(new Turno(2, medicos.get(1), pacientes.get(1), "2023-06-20 15:30"));
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                turnos.add(new Turno(1, medicos.get(0), pacientes.get(0), LocalDateTime.parse("2023-06-19 10:00", formatter)));
+                turnos.add(new Turno(2, medicos.get(1), pacientes.get(1), LocalDateTime.parse("2023-06-20 15:30", formatter)));
+
                 gui.actualizarTablaTurnos(turnos);
             }
         });
