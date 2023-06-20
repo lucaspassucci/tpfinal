@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseManager {
     private Connection connection;
     //private static final String DB_URL = "jdbc:h2:/Users/lucaspassucci/Desktop/sistemamedico.mv.db";
-    private static final String DB_URL = "jdbc:h2:~/sistemamedico";
+        private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico";
 
     private static final String USER = "sa";
     private static final String PASS = "";
@@ -120,7 +120,7 @@ public class DatabaseManager {
 
             if (rs.next()) {
                 paciente = new Paciente();
-                paciente.setId(rs.getLong("ID"));
+                paciente.setId((int) rs.getLong("ID"));
                 paciente.setNombre(rs.getString("NOMBRE"));
             }
         } catch (SQLException e) {
@@ -265,7 +265,7 @@ public class DatabaseManager {
             if (rs.next()) {
                 String nombre = rs.getString("nombre");
 
-                paciente = new Paciente(id, nombre);
+                paciente = new Paciente(nombre);
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener el paciente por ID: " + e.getMessage());
@@ -339,7 +339,7 @@ public class DatabaseManager {
                 long id = resultSet.getLong("id");
                 String nombre = resultSet.getString("nombre");
 
-                Paciente paciente = new Paciente(id, nombre);
+                Paciente paciente = new Paciente(nombre);
                 pacientes.add(paciente);
             }
         } catch (SQLException e) {

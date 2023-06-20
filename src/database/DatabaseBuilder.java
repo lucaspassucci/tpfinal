@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseBuilder {
-    private static final String DB_URL = "jdbc:h2:~/sistemamedico;DB_CLOSE_ON_EXIT=FALSE";
+    private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico;DB_CLOSE_ON_EXIT=FALSE";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "";
 

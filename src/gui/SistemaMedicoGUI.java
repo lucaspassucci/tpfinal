@@ -63,7 +63,9 @@ public class SistemaMedicoGUI {
         medicoPanel.add(registroMedicoPanel, BorderLayout.NORTH);
 
         // Tabla de médicos
-        medicosTable = new JTable();
+        String[] columnNames = {"ID", "Nombre", "Tarifa de Consulta"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        medicosTable = new JTable(model);
         JScrollPane medicosScrollPane = new JScrollPane(medicosTable);
         medicoPanel.add(medicosScrollPane, BorderLayout.CENTER);
 
@@ -85,7 +87,9 @@ public class SistemaMedicoGUI {
         pacientePanel.add(registroPacientePanel, BorderLayout.NORTH);
 
         // Tabla de pacientes
-        pacientesTable = new JTable();
+        String[] columnNamesPacientes = {"ID", "Nombre"};
+        DefaultTableModel modelPacientes = new DefaultTableModel(columnNamesPacientes, 0);
+        pacientesTable = new JTable(modelPacientes);
         JScrollPane pacientesScrollPane = new JScrollPane(pacientesTable);
         pacientePanel.add(pacientesScrollPane, BorderLayout.CENTER);
 
@@ -115,7 +119,9 @@ public class SistemaMedicoGUI {
         turnoPanel.add(registroTurnoPanel, BorderLayout.NORTH);
 
         // Tabla de turnos
-        turnosTable = new JTable();
+        String[] columnNamesTurnos = {"ID", "ID Médico", "ID Paciente", "Fecha y Hora"};
+        DefaultTableModel modelTurnos = new DefaultTableModel(columnNamesTurnos, 0);
+        turnosTable = new JTable(modelTurnos);
         JScrollPane turnosScrollPane = new JScrollPane(turnosTable);
         turnoPanel.add(turnosScrollPane, BorderLayout.CENTER);
 
@@ -138,9 +144,46 @@ public class SistemaMedicoGUI {
             tarifaConsultaField.setText("");
         });
 
-        // Fetch and display the list of doctors initially
+        registrarPacienteButton.addActionListener(e -> {
+            String nombre = nombrePacienteField.getText();
+
+            Paciente paciente = new Paciente(nombre);
+            databaseManager.createPaciente(paciente);
+
+            actualizarTablaPacientes(databaseManager.getAllPacientes());
+
+            nombrePacienteField.setText("");
+        });
+
+        registrarTurnoButton.addActionListener(e -> {
+            int idMedico = Integer.parseInt(idMedicoField.getText());
+            int idPaciente = Integer.parseInt(idPacienteField.getText());
+            LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+            Medico medico = databaseManager.getMedicoById(idMedico);
+            Paciente paciente = databaseManager.getPacienteById(idPaciente);
+
+            if (medico != null && paciente != null) {
+                Turno turno = new Turno(idMedico, medico, paciente, fechaHora);
+                databaseManager.createTurno(turno);
+            } else {
+                // Handle situation where either the medico or paciente could not be found
+            }
+
+            actualizarTablaTurnos(databaseManager.getAllTurnos());
+
+            idMedicoField.setText("");
+            idPacienteField.setText("");
+            fechaHoraField.setText("");
+        });
         List<Medico> medicos = databaseManager.getAllMedicos();
         actualizarTablaMedicos(medicos);
+
+        List<Paciente> pacientes = databaseManager.getAllPacientes();
+        actualizarTablaPacientes(pacientes);
+
+        List<Turno> turnos = databaseManager.getAllTurnos();
+        actualizarTablaTurnos(turnos);
 
         frame.setVisible(true);
     }
@@ -151,6 +194,28 @@ public class SistemaMedicoGUI {
 
         for (Medico medico : medicos) {
             Object[] row = {medico.getId(), medico.getNombre(), medico.getTarifaConsulta()};
+            model.addRow(row);
+        }
+    }
+
+    public void actualizarTablaPacientes(List<Paciente> pacientes) {
+        DefaultTableModel model = (DefaultTableModel) pacientesTable.getModel();
+        model.setRowCount(0);
+
+        for (Paciente paciente : pacientes) {
+            Object[] row = {paciente.getId(), paciente.getNombre()};
+            model.addRow(row);
+        }
+    }
+
+    public void actualizarTablaTurnos(List<Turno> turnos) {
+        DefaultTableModel model = (DefaultTableModel) turnosTable.getModel();
+        model.setRowCount(0);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (Turno turno : turnos) {
+            Object[] row = {turno.getId(), turno.getIdMedico(), turno.getIdPaciente(), turno.getFechaHora().format(formatter)};
             model.addRow(row);
         }
     }

@@ -15,15 +15,24 @@ public class Turno {
     }
 
     public Turno() {
-
     }
 
     public long getId() {
         return id;
     }
+
+    public long getIdMedico() {
+        return medico.getId();
+    }
+
+    public long getIdPaciente() {
+        return paciente.getId();
+    }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public Medico getMedico() {
         return medico;
     }

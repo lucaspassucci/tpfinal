@@ -1,11 +1,12 @@
 package model;
 
 public class Paciente {
-    private long id;
     private String nombre;
+    private long id; // assuming there is an 'id' field
 
-    public Paciente(long id, String nombre) {
-        this.id = id;
+    // other fields...
+
+    public Paciente(String nombre) {
         this.nombre = nombre;
     }
 
@@ -13,20 +14,26 @@ public class Paciente {
 
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
+    // getters and setters...
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // other methods...
+
 
     @Override
     public String toString() {
