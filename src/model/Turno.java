@@ -14,10 +14,16 @@ public class Turno {
         this.fechaHora = fechaHora;
     }
 
+    public Turno() {
+
+    }
+
     public long getId() {
         return id;
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public Medico getMedico() {
         return medico;
     }

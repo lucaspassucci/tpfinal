@@ -4,14 +4,26 @@ public class Medico {
     private String nombre;
     private double tarifaConsulta;
 
+    public Medico() {
+        // Constructor sin argumentos
+    }
+
     public Medico(long id, String nombre, double tarifaConsulta) {
         this.id = id;
+        this.nombre = nombre;
+        this.tarifaConsulta = tarifaConsulta;
+    }
+    public Medico(String nombre, double tarifaConsulta) {
         this.nombre = nombre;
         this.tarifaConsulta = tarifaConsulta;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNombre() {

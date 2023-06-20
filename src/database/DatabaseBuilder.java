@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseBuilder {
-    private static final String DB_URL = "jdbc:h2:~/sistemamedico";
+    private static final String DB_URL = "jdbc:h2:~/sistemamedico;DB_CLOSE_ON_EXIT=FALSE";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "";
 
@@ -23,13 +23,13 @@ public class DatabaseBuilder {
              Statement statement = connection.createStatement()) {
 
             // Tabla de médicos
-            statement.execute("CREATE TABLE medico (id BIGINT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2))");
+            statement.execute("CREATE TABLE IF NOT EXISTS medico (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2))");
 
             // Tabla de pacientes
-            statement.execute("CREATE TABLE paciente (id BIGINT PRIMARY KEY, nombre VARCHAR(100))");
+            statement.execute("CREATE TABLE IF NOT EXISTS paciente (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100))");
 
             // Tabla de turnos
-            statement.execute("CREATE TABLE turno (id BIGINT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
+            statement.execute("CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
                     "fecha_hora TIMESTAMP, FOREIGN KEY (id_medico) REFERENCES medico(id), FOREIGN KEY (id_paciente) REFERENCES paciente(id))");
         }
     }

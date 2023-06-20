@@ -3,13 +3,13 @@ package gui;
 import model.Medico;
 import model.Paciente;
 import model.Turno;
+import database.DatabaseManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SistemaMedicoGUI {
@@ -33,6 +33,8 @@ public class SistemaMedicoGUI {
     private JTextField fechaHoraField;
     private JButton registrarTurnoButton;
     private JTable turnosTable;
+
+    private DatabaseManager databaseManager;
 
     public SistemaMedicoGUI() {
         frame = new JFrame("Sistema Médico");
@@ -121,6 +123,25 @@ public class SistemaMedicoGUI {
 
         frame.add(tabbedPane);
 
+        databaseManager = new DatabaseManager();
+
+        registrarMedicoButton.addActionListener(e -> {
+            String nombre = nombreMedicoField.getText();
+            double tarifaConsulta = Double.parseDouble(tarifaConsultaField.getText());
+
+            Medico medico = new Medico(nombre, tarifaConsulta);
+            databaseManager.createMedico(medico);
+
+            actualizarTablaMedicos(databaseManager.getAllMedicos());
+
+            nombreMedicoField.setText("");
+            tarifaConsultaField.setText("");
+        });
+
+        // Fetch and display the list of doctors initially
+        List<Medico> medicos = databaseManager.getAllMedicos();
+        actualizarTablaMedicos(medicos);
+
         frame.setVisible(true);
     }
 
@@ -129,57 +150,12 @@ public class SistemaMedicoGUI {
         model.setRowCount(0);
 
         for (Medico medico : medicos) {
-            Object[] row = { medico.getId(), medico.getNombre(), medico.getTarifaConsulta() };
-            model.addRow(row);
-        }
-    }
-
-    public void actualizarTablaPacientes(List<Paciente> pacientes) {
-        DefaultTableModel model = (DefaultTableModel) pacientesTable.getModel();
-        model.setRowCount(0);
-
-        for (Paciente paciente : pacientes) {
-            Object[] row = { paciente.getId(), paciente.getNombre() };
-            model.addRow(row);
-        }
-    }
-
-    public void actualizarTablaTurnos(List<Turno> turnos) {
-        DefaultTableModel model = (DefaultTableModel) turnosTable.getModel();
-        model.setRowCount(0);
-
-        for (Turno turno : turnos) {
-            Object[] row = { turno.getId(), turno.getMedico().getNombre(), turno.getPaciente().getNombre(), turno.getFechaHora() };
+            Object[] row = {medico.getId(), medico.getNombre(), medico.getTarifaConsulta()};
             model.addRow(row);
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                SistemaMedicoGUI gui = new SistemaMedicoGUI();
-
-                // Ejemplo: Actualizar tablas con datos ficticios
-                List<Medico> medicos = new ArrayList<>();
-                medicos.add(new Medico(1, "Dr. Juan Pérez", 100.0));
-                medicos.add(new Medico(2, "Dra. María Gómez", 150.0));
-                gui.actualizarTablaMedicos(medicos);
-
-                List<Paciente> pacientes = new ArrayList<>();
-                pacientes.add(new Paciente(1, "Ana Sánchez"));
-                pacientes.add(new Paciente(2, "Pedro Rodríguez"));
-                gui.actualizarTablaPacientes(pacientes);
-
-                List<Turno> turnos = new ArrayList<>();
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-                turnos.add(new Turno(1, medicos.get(0), pacientes.get(0), LocalDateTime.parse("2023-06-19 10:00", formatter)));
-                turnos.add(new Turno(2, medicos.get(1), pacientes.get(1), LocalDateTime.parse("2023-06-20 15:30", formatter)));
-
-                gui.actualizarTablaTurnos(turnos);
-            }
-        });
+        SwingUtilities.invokeLater(SistemaMedicoGUI::new);
     }
 }

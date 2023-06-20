@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83e9f8ea-a513-49bb-ac38-37139c75e916" name="Changes" comment="added medico, paciente, turno. Also added gui and database classes">
-      <change afterPath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TPfinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TPfinal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Medico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Medico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Paciente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Turno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Turno.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,11 +54,14 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.DatabaseBuilder">
+  <component name="RunManager" selected="Application.SistemaMedicoGUI">
     <configuration name="DatabaseBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="database.DatabaseBuilder" />
       <module name="TPfinal" />
@@ -90,8 +97,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatabaseBuilder" />
         <item itemvalue="Application.SistemaMedicoGUI" />
+        <item itemvalue="Application.DatabaseBuilder" />
         <item itemvalue="Application.SistemaMedicoGUI (1)" />
       </list>
     </recent_temporary>
@@ -105,7 +112,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687287743690</updated>
       <workItem from="1687287744584" duration="156000" />
-      <workItem from="1687288272496" duration="2561000" />
+      <workItem from="1687288272496" duration="6370000" />
     </task>
     <task id="LOCAL-00001" summary="added packages">
       <created>1687288875982</created>
@@ -128,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687289472497</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added medico, paciente, turno. Also added gui and database classes">
+      <created>1687291103436</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687291103436</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
