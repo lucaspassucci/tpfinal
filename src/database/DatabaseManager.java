@@ -12,8 +12,10 @@ import java.util.List;
 public class DatabaseManager {
     private Connection connection;
     //private static final String DB_URL = "jdbc:h2:/Users/lucaspassucci/Desktop/sistemamedico.mv.db";
-        private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico";
-
+    //url para la mac
+    //private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico";
+    //url para windows
+    private static final String DB_URL = "jdbc:h2:/C:\\Users\\lucas\\Desktop\\tpfinal\\src\\sistemamedico.mv.db";
     private static final String USER = "sa";
     private static final String PASS = "";
 

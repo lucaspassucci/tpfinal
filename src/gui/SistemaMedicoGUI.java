@@ -21,11 +21,15 @@ public class SistemaMedicoGUI {
     private JTextField tarifaConsultaField;
     private JButton registrarMedicoButton;
     private JTable medicosTable;
+    private JButton deleteMedicoButton;
+    private JTextField idMedicoDeleteField;
 
     // Componentes para la pestaña de Pacientes
     private JTextField nombrePacienteField;
     private JButton registrarPacienteButton;
     private JTable pacientesTable;
+    private JButton deletePacienteButton;
+    private JTextField idPacienteDeleteField;
 
     // Componentes para la pestaña de Turnos
     private JTextField idMedicoField;
@@ -47,7 +51,7 @@ public class SistemaMedicoGUI {
         JPanel medicoPanel = new JPanel(new BorderLayout());
 
         // Panel de registro de médicos
-        JPanel registroMedicoPanel = new JPanel(new GridLayout(3, 2));
+        JPanel registroMedicoPanel = new JPanel(new GridLayout(5, 2));
 
         registroMedicoPanel.add(new JLabel("Nombre Médico:"));
         nombreMedicoField = new JTextField();
@@ -59,6 +63,13 @@ public class SistemaMedicoGUI {
 
         registrarMedicoButton = new JButton("Registrar Médico");
         registroMedicoPanel.add(registrarMedicoButton);
+
+        registroMedicoPanel.add(new JLabel("ID Médico para borrar:"));
+        idMedicoDeleteField = new JTextField();
+        registroMedicoPanel.add(idMedicoDeleteField);
+
+        deleteMedicoButton = new JButton("Borrar Médico");
+        registroMedicoPanel.add(deleteMedicoButton);
 
         medicoPanel.add(registroMedicoPanel, BorderLayout.NORTH);
 
@@ -75,7 +86,7 @@ public class SistemaMedicoGUI {
         JPanel pacientePanel = new JPanel(new BorderLayout());
 
         // Panel de registro de pacientes
-        JPanel registroPacientePanel = new JPanel(new GridLayout(2, 2));
+        JPanel registroPacientePanel = new JPanel(new GridLayout(3, 2));
 
         registroPacientePanel.add(new JLabel("Nombre Paciente:"));
         nombrePacienteField = new JTextField();
@@ -83,6 +94,13 @@ public class SistemaMedicoGUI {
 
         registrarPacienteButton = new JButton("Registrar Paciente");
         registroPacientePanel.add(registrarPacienteButton);
+
+        registroPacientePanel.add(new JLabel("ID Paciente para borrar:"));
+        idPacienteDeleteField = new JTextField();
+        registroPacientePanel.add(idPacienteDeleteField);
+
+        deletePacienteButton = new JButton("Borrar Paciente");
+        registroPacientePanel.add(deletePacienteButton);
 
         pacientePanel.add(registroPacientePanel, BorderLayout.NORTH);
 
@@ -176,19 +194,30 @@ public class SistemaMedicoGUI {
             idPacienteField.setText("");
             fechaHoraField.setText("");
         });
-        List<Medico> medicos = databaseManager.getAllMedicos();
-        actualizarTablaMedicos(medicos);
 
-        List<Paciente> pacientes = databaseManager.getAllPacientes();
-        actualizarTablaPacientes(pacientes);
+        deleteMedicoButton.addActionListener(e -> {
+            int idMedico = Integer.parseInt(idMedicoDeleteField.getText());
+            databaseManager.deleteMedico(idMedico);
+            actualizarTablaMedicos(databaseManager.getAllMedicos());
+            idMedicoDeleteField.setText("");
+        });
 
-        List<Turno> turnos = databaseManager.getAllTurnos();
-        actualizarTablaTurnos(turnos);
+        deletePacienteButton.addActionListener(e -> {
+            int idPaciente = Integer.parseInt(idPacienteDeleteField.getText());
+            databaseManager.deletePaciente(idPaciente);
+            actualizarTablaPacientes(databaseManager.getAllPacientes());
+            idPacienteDeleteField.setText("");
+        });
+
+        // Update the tables at the start
+        actualizarTablaMedicos(databaseManager.getAllMedicos());
+        actualizarTablaPacientes(databaseManager.getAllPacientes());
+        actualizarTablaTurnos(databaseManager.getAllTurnos());
 
         frame.setVisible(true);
     }
 
-    public void actualizarTablaMedicos(List<Medico> medicos) {
+    private void actualizarTablaMedicos(List<Medico> medicos) {
         DefaultTableModel model = (DefaultTableModel) medicosTable.getModel();
         model.setRowCount(0);
 
@@ -198,7 +227,7 @@ public class SistemaMedicoGUI {
         }
     }
 
-    public void actualizarTablaPacientes(List<Paciente> pacientes) {
+    private void actualizarTablaPacientes(List<Paciente> pacientes) {
         DefaultTableModel model = (DefaultTableModel) pacientesTable.getModel();
         model.setRowCount(0);
 
@@ -208,19 +237,17 @@ public class SistemaMedicoGUI {
         }
     }
 
-    public void actualizarTablaTurnos(List<Turno> turnos) {
+    private void actualizarTablaTurnos(List<Turno> turnos) {
         DefaultTableModel model = (DefaultTableModel) turnosTable.getModel();
         model.setRowCount(0);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         for (Turno turno : turnos) {
-            Object[] row = {turno.getId(), turno.getIdMedico(), turno.getIdPaciente(), turno.getFechaHora().format(formatter)};
+            Object[] row = {turno.getId(), turno.getMedico().getId(), turno.getPaciente().getId(), turno.getFechaHora().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))};
             model.addRow(row);
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SistemaMedicoGUI::new);
+        new SistemaMedicoGUI();
     }
 }
