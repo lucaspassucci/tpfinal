@@ -296,7 +296,7 @@ public class DatabaseManager {
                 Medico medico = getMedicoById(idMedico);
                 Paciente paciente = getPacienteById(idPaciente);
 
-                turno = new Turno(id, medico, paciente, fechaHora);
+                turno = new Turno(medico, paciente, fechaHora);
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener el turno por ID: " + e.getMessage());
@@ -369,7 +369,7 @@ public class DatabaseManager {
                 Medico medico = getMedicoById(idMedico);
                 Paciente paciente = getPacienteById(idPaciente);
 
-                Turno turno = new Turno(id, medico, paciente, fechaHora);
+                Turno turno = new Turno(medico, paciente, fechaHora);
                 turnos.add(turno);
             }
         } catch (SQLException e) {

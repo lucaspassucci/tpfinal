@@ -204,7 +204,7 @@ public class SistemaMedicoGUI {
             String nombre = nombreMedicoField.getText();
             double tarifaConsulta = Double.parseDouble(tarifaConsultaField.getText());
             Medico medico = new Medico(nombre, tarifaConsulta);
-            databaseManager.saveMedico(medico);
+            databaseManager.createMedico(medico);
             updateMedicosTable();
         });
 
@@ -226,7 +226,7 @@ public class SistemaMedicoGUI {
         registrarPacienteButton.addActionListener(e -> {
             String nombre = nombrePacienteField.getText();
             Paciente paciente = new Paciente(nombre);
-            databaseManager.savePaciente(paciente);
+            databaseManager.createPaciente(paciente);
             updatePacientesTable();
         });
 
@@ -239,18 +239,28 @@ public class SistemaMedicoGUI {
         updatePacienteButton.addActionListener(e -> {
             int idPaciente = Integer.parseInt(idPacienteUpdateField.getText());
             String nombre = nombrePacienteUpdateField.getText();
-            Paciente paciente = new Paciente(idPaciente, nombre);
+            Paciente paciente = new Paciente(nombre);
             databaseManager.updatePaciente(paciente);
             updatePacientesTable();
         });
-
         registrarTurnoButton.addActionListener(e -> {
             int idMedico = Integer.parseInt(idMedicoField.getText());
             int idPaciente = Integer.parseInt(idPacienteField.getText());
             LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            Turno turno = new Turno(idMedico, idPaciente, fechaHora);
-            databaseManager.saveTurno(turno);
+
+            Medico medico = databaseManager.getMedicoById(idMedico);
+            Paciente paciente = databaseManager.getPacienteById(idPaciente);
+
+            if (medico != null && paciente != null) {
+                Turno turno = new Turno(medico, paciente, fechaHora);  // Fixed here
+                databaseManager.createTurno(turno);
+            } else {
+                // Handle situation where either the medico or paciente could not be found
+            }
             updateTurnosTable();
+            idMedicoField.setText("");
+            idPacienteField.setText("");
+            fechaHoraField.setText("");
         });
 
         updateTurnoButton.addActionListener(e -> {
@@ -258,9 +268,22 @@ public class SistemaMedicoGUI {
             int idMedico = Integer.parseInt(idMedicoUpdateFieldTurno.getText());
             int idPaciente = Integer.parseInt(idPacienteUpdateFieldTurno.getText());
             LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraUpdateField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            Turno turno = new Turno(idTurno, idMedico, idPaciente, fechaHora);
-            databaseManager.updateTurno(turno);
+
+            Medico medico = databaseManager.getMedicoById(idMedico);
+            Paciente paciente = databaseManager.getPacienteById(idPaciente);
+
+            if (medico != null && paciente != null) {
+                Turno turno = new Turno(medico, paciente, fechaHora);  // Fixed here
+                databaseManager.updateTurno(turno);
+            } else {
+                // Handle situation where either the medico or paciente could not be found
+            }
             updateTurnosTable();
+
+            idTurnoUpdateField.setText("");
+            idMedicoUpdateFieldTurno.setText("");
+            idPacienteUpdateFieldTurno.setText("");
+            fechaHoraUpdateField.setText("");
         });
     }
 
@@ -268,7 +291,7 @@ public class SistemaMedicoGUI {
         DefaultTableModel model = (DefaultTableModel) medicosTable.getModel();
         model.setRowCount(0); // Clear current table contents
 
-        List<Medico> medicos = databaseManager.getMedicos();
+        List<Medico> medicos = databaseManager.getAllMedicos();
 
         for (Medico medico : medicos) {
             Object[] row = {medico.getId(), medico.getNombre(), medico.getTarifaConsulta()};
@@ -280,7 +303,7 @@ public class SistemaMedicoGUI {
         DefaultTableModel model = (DefaultTableModel) pacientesTable.getModel();
         model.setRowCount(0); // Clear current table contents
 
-        List<Paciente> pacientes = databaseManager.getPacientes();
+        List<Paciente> pacientes = databaseManager.getAllPacientes();
 
         for (Paciente paciente : pacientes) {
             Object[] row = {paciente.getId(), paciente.getNombre()};
@@ -292,7 +315,7 @@ public class SistemaMedicoGUI {
         DefaultTableModel model = (DefaultTableModel) turnosTable.getModel();
         model.setRowCount(0); // Clear current table contents
 
-        List<Turno> turnos = databaseManager.getTurnos();
+        List<Turno> turnos = databaseManager.getAllTurnos();
 
         for (Turno turno : turnos) {
             Object[] row = {turno.getId(), turno.getIdMedico(), turno.getIdPaciente(), turno.getFechaHora()};
