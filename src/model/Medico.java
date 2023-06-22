@@ -3,7 +3,7 @@ public class Medico {
     private long id;
     private String nombre;
     private double tarifaConsulta;
-
+    private String obraSocial;
     public Medico() {
         // Constructor sin argumentos
     }
@@ -42,12 +42,21 @@ public class Medico {
         this.tarifaConsulta = tarifaConsulta;
     }
 
+    public String getObraSocial() {
+        return obraSocial;
+    }
+
+    public void setObraSocial(String obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
     @Override
     public String toString() {
         return "Medico{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", tarifaConsulta=" + tarifaConsulta +
+                ", tarifaConsulta=" + tarifaConsulta '\'' +
+                ", obra social='" + obraSocial +
                 '}';
     }
 }

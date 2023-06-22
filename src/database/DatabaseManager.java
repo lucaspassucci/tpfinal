@@ -18,8 +18,9 @@ public class DatabaseManager {
     private static final String DB_URL = "jdbc:h2:/C:\\Users\\lucas\\Desktop\\tpfinal\\src\\sistemamedico.mv.db";
     private static final String USER = "sa";
     private static final String PASS = "";
+    private static final String DB_DRIVER = "org.h2.Driver";
 
-    public Connection getConnection() throws SQLException {
+    /*public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
         }
@@ -30,19 +31,56 @@ public class DatabaseManager {
         if (connection != null) {
             connection.close();
         }
+    }*/
+
+    public static Connection getConnection() { //me conecto y desconecto de la clase
+        Connection c = null;
+        try{
+            Class.forName(DB_DRIVER); //recibe el FQN de una clase
+        }catch (ClassNotFoundExcepcion e){ //por si pongo mail el "org.h2.Driver"
+            e.printStackTrace(); //aca y la otra línea mato el programa. Podría tirar un mensaje de error.
+            System.exit(0);
+        }
+        //Me Conecto
+        try{
+            c = DriverManager.getConnection(DB_URL, DB_USERNAME_ DB_PASSWORD); //Uso esta clase para conectarme. Driver manager usa la clase que llamé en DB_DRIVER
+            c.setAutoCommit(false);
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     // CRUD Operations for Medico
 
-    public void createMedico(Medico medico) {
+    public void createMedico(Medico medico) throws ObjetoDuplicadoException{
         String sql = "INSERT INTO medico(nombre, tarifa_consulta) VALUES(?, ?)";
+        Connection c = connect();
+        //Si lo de abajo funciona lo replicamos en los otros métodos
+        try {
+            Statement s = c.createStatement();
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, medico.getNombre());
+            ps.setDouble(2, medico.getTarifaConsulta());
+            ps.executeUpdate();//puede ser que haya que agregar ''sql'' en el execute
+            c.commit();
+        } catch (SQLException e){
+            try{
+                e.printStackTrace();
+                c.rollback();
+                if(e.getErrorCode() == 23505){  //codigo de error de duplicados segun la primary key de h2, se ve en la documentación
+                    throw new ObjetoDuplicadoException();
+                }
 
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            pstmt.setString(1, medico.getNombre());
-            pstmt.setDouble(2, medico.getTarifaConsulta());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            }catch (SQLException e1){
+                e.printStackTrace();
+            }
+        } finally{
+            try{
+                c.close();
+            }catch(SQLException e1){
+                e1.printStackTrace();
+            }
         }
     }
 

@@ -3,7 +3,7 @@ package model;
 public class Paciente {
     private String nombre;
     private long id; // assuming there is an 'id' field
-
+    private String obraSocial;
     // other fields...
 
     public Paciente(String nombre) {
@@ -32,6 +32,14 @@ public class Paciente {
         this.id = id;
     }
 
+    public String getObraSocial() {
+        return obraSocial;
+    }
+
+    public void setObraSocial(String obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
     // other methods...
 
 
@@ -40,6 +48,7 @@ public class Paciente {
         return "Paciente{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
+                ", obra social='" + obraSocial +
                 '}';
     }
 }

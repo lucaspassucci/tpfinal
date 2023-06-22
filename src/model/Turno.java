@@ -56,6 +56,17 @@ public class Turno {
         this.fechaHora = fechaHora;
     }
 
+    public double getTarifa(Medico medico, Paciente paciente) { //no sé si hace falta enviar Paciente como parámetro
+        if((medico.getObraSocial()).equals(paciente.getObraSocial()))
+        {
+            return medico.tarifaConsulta*0.5;
+        }
+        else
+        {
+            return medico.tarifaConsulta;
+        }
+    }
+
     @Override
     public String toString() {
         return "Turno{" +
@@ -63,6 +74,7 @@ public class Turno {
                 ", medico=" + medico +
                 ", paciente=" + paciente +
                 ", fechaHora=" + fechaHora +
+                ", tarifa=" + getTarifa(medico,paciente) +
                 '}';
     }
 }

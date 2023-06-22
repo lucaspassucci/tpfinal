@@ -19,18 +19,31 @@ public class DatabaseBuilder {
     }
 
     private static void createTables() throws SQLException {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             Statement statement = connection.createStatement()) {
+        Conection c = DatabaseManager.connection();
+        String sqlMedico = "CREATE TABLE IF NOT EXISTS medico (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2))";
+        String sqlPaciente = "CREATE TABLE IF NOT EXISTS paciente (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100))";
+        String sqlTurnos = "CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
+                "fecha_hora TIMESTAMP, FOREIGN KEY (id_medico) REFERENCES medico(id), FOREIGN KEY (id_paciente) REFERENCES paciente(id))";
 
-            // Tabla de médicos
-            statement.execute("CREATE TABLE IF NOT EXISTS medico (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2))");
-
-            // Tabla de pacientes
-            statement.execute("CREATE TABLE IF NOT EXISTS paciente (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100))");
-
-            // Tabla de turnos
-            statement.execute("CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
-                    "fecha_hora TIMESTAMP, FOREIGN KEY (id_medico) REFERENCES medico(id), FOREIGN KEY (id_paciente) REFERENCES paciente(id))");
+        try{
+            Statement s = c.createStatement();
+            s.execute(sqlMedico);
+            s.execute(sqlPaciente);
+            s.execute(sqlTurnos);
+        }catch (SQLException e){
+            try{
+                c.rollback();
+                e.printStackTrace();
+                System.exit(0);
+            } catch(SQLException e1){
+                e1.printStackTrace();
+            }
+        }finally{
+            try{
+                c.close();
+            }catch (SQLException e){
+                e.printStackTrace;
+            }
         }
     }
 }
