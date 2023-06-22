@@ -15,7 +15,8 @@ public class DatabaseManager {
     //url para la mac
     //private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico";
     //url para windows
-    private static final String DB_URL = "jdbc:h2:/C:\\Users\\lucas\\Desktop\\tpfinal\\src\\sistemamedico.mv.db";
+    //private static final String DB_URL = "jdbc:h2:/C:\\Users\\lucas\\Desktop\\tpfinal\\src\\sistemamedico.mv.db";
+    private static final String DB_URL = "jdbc:h2:../database/sistemamedico";
     private static final String USER = "sa";
     private static final String PASS = "";
     private static final String DB_DRIVER = "org.h2.Driver";
