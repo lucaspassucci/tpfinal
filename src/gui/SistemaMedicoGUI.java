@@ -49,6 +49,12 @@ public class SistemaMedicoGUI {
     private JTextField idMedicoUpdateFieldTurno; // Added
     private JTextField idPacienteUpdateFieldTurno; // Added
     private JTextField fechaHoraUpdateField; // Added
+    // Components for Report tab
+    private JTextField idMedicoReportField;
+    private JTextField fechaDesdeReportField;
+    private JTextField fechaHastaReportField;
+    private JButton consultarReportButton;
+    private JTable reportesTable;
 
     private DatabaseManager databaseManager;
 
@@ -198,8 +204,35 @@ public class SistemaMedicoGUI {
 
         // Assuming your DatabaseManager is initialized somewhere
         databaseManager = new DatabaseManager();
+        // Report tab
+        JPanel reportPanel = new JPanel(new BorderLayout());
+        JPanel consultaReportPanel = new JPanel(new GridLayout(4, 2));
 
-        // Action listeners for buttons
+        consultaReportPanel.add(new JLabel("ID Médico:"));
+        idMedicoReportField = new JTextField();
+        consultaReportPanel.add(idMedicoReportField);
+
+        consultaReportPanel.add(new JLabel("Fecha Desde (formato YYYY-MM-DD):"));
+        fechaDesdeReportField = new JTextField();
+        consultaReportPanel.add(fechaDesdeReportField);
+
+        consultaReportPanel.add(new JLabel("Fecha Hasta (formato YYYY-MM-DD):"));
+        fechaHastaReportField = new JTextField();
+        consultaReportPanel.add(fechaHastaReportField);
+
+        consultarReportButton = new JButton("Consultar Reporte");
+        consultaReportPanel.add(consultarReportButton);
+
+        reportPanel.add(consultaReportPanel, BorderLayout.NORTH);
+
+        String[] columnNamesReportes = {"IDTurno", "Nombre Medico Asignado", "Nombre Paciente asignado","Tarifa consulta", "Fecha"};
+        DefaultTableModel modelReportes = new DefaultTableModel(columnNamesReportes, 0);
+        reportesTable = new JTable(modelReportes);
+        JScrollPane reportesScrollPane = new JScrollPane(reportesTable);
+        reportPanel.add(reportesScrollPane, BorderLayout.CENTER);
+
+        tabbedPane.addTab("Reportes", reportPanel);
+   // Action listeners for buttons
         registrarMedicoButton.addActionListener(e -> {
             String nombre = nombreMedicoField.getText();
             double tarifaConsulta = Double.parseDouble(tarifaConsultaField.getText());
