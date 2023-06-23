@@ -4,26 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added DB url handling">
-      <change afterPath="$PROJECT_DIR$/database/h2/build.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/tpfinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tpfinal.iml" afterDir="false" />
+    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="changes in database handling and updated CRUD methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/sistemamedico.mv.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sistemamedico.mv.db.mv.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sistemamedico.trace.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/sistemamedico.mv.db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Medico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Medico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Paciente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Reporte.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Turno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Turno.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -73,7 +72,7 @@
       <recent name="$PROJECT_DIR$/database" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.SistemaMedicoGUI">
     <configuration name="DatabaseBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="database.DatabaseBuilder" />
       <module name="tpfinal" />
@@ -87,8 +86,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SistemaMedicoGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gui.SistemaMedicoGUI" />
+      <module name="tpfinal" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SistemaMedicoGUI" />
         <item itemvalue="Application.DatabaseBuilder" />
       </list>
     </recent_temporary>
@@ -102,7 +115,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
-      <workItem from="1687524968786" duration="6216000" />
+      <workItem from="1687524968786" duration="7720000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -111,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687469883382</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changes in database handling and updated CRUD methods">
+      <created>1687531489742</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1687531489742</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +150,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added DB url handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="added DB url handling" />
+    <MESSAGE value="changes in database handling and updated CRUD methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes in database handling and updated CRUD methods" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/database/DatabaseBuilder.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

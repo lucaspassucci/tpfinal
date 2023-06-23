@@ -17,32 +17,37 @@ public class DatabaseBuilder {
         }
     }
 
-     static void createTables() throws SQLException {
-        Connection c = DatabaseManager.getConnection();
+    static void createTables() throws SQLException {
+        Connection c = getConnection();
         String sqlMedico = "CREATE TABLE IF NOT EXISTS medico (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2), obra_social VARCHAR(100))";
         String sqlPaciente = "CREATE TABLE IF NOT EXISTS paciente (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), obra_social VARCHAR(100))";
         String sqlTurnos = "CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
                 "fecha_hora TIMESTAMP, FOREIGN KEY (id_medico) REFERENCES medico(id), FOREIGN KEY (id_paciente) REFERENCES paciente(id))";
 
-        try{
+        try {
             Statement s = c.createStatement();
             s.execute(sqlMedico);
             s.execute(sqlPaciente);
             s.execute(sqlTurnos);
-        }catch (SQLException e){
-            try{
+        } catch (SQLException e) {
+            try {
                 c.rollback();
                 e.printStackTrace();
                 System.exit(0);
-            } catch(SQLException e1){
+            } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-        }finally{
-            try{
+        } finally {
+            try {
                 c.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    static Connection getConnection() throws SQLException {
+        String dbUrl = Database.getDbUrl();
+        return DriverManager.getConnection(dbUrl, DB_USER, DB_PASSWORD);
     }
 }
