@@ -12,6 +12,14 @@ public class Turno {
         this.medico = medico;
         this.paciente = paciente;
         this.fechaHora = fechaHora;
+        this.tarifa = calcularTarifa(medico,paciente);
+    }
+
+    public Turno(Medico medico, Paciente paciente, LocalDateTime fechaHora, double tarifa) {
+        this.medico = medico;
+        this.paciente = paciente;
+        this.fechaHora = fechaHora;
+        this.tarifa = tarifa;
     }
 
     public Turno() {
@@ -56,7 +64,7 @@ public class Turno {
         this.fechaHora = fechaHora;
     }
 
-    public double getTarifa(Medico medico, Paciente paciente) {
+    public double calcularTarifa(Medico medico, Paciente paciente) {
         this.tarifa = medico.getTarifaConsulta();
         if((medico.getObraSocial()).equals(paciente.getObraSocial()))
         {
@@ -65,6 +73,9 @@ public class Turno {
         return tarifa;
     }
 
+    public double getTarifa(){
+        return this.tarifa;
+    }
 
 
     @Override
@@ -74,7 +85,7 @@ public class Turno {
                 ", medico=" + medico +
                 ", paciente=" + paciente +
                 ", fechaHora=" + fechaHora +
-                ", tarifa=" + getTarifa(medico,paciente) +
+                ", tarifa=" + tarifa +
                 '}';
     }
 }

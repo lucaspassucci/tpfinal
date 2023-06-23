@@ -21,7 +21,7 @@ public class DatabaseBuilder {
         Connection c = getConnection();
         String sqlMedico = "CREATE TABLE IF NOT EXISTS medico (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), tarifa_consulta DECIMAL(10, 2), obra_social VARCHAR(100))";
         String sqlPaciente = "CREATE TABLE IF NOT EXISTS paciente (id BIGINT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), obra_social VARCHAR(100))";
-        String sqlTurnos = "CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, " +
+        String sqlTurnos = "CREATE TABLE IF NOT EXISTS turno (id BIGINT AUTO_INCREMENT PRIMARY KEY, id_medico BIGINT, id_paciente BIGINT, tarifa DECIMAL(10,2)," +
                 "fecha_hora TIMESTAMP, FOREIGN KEY (id_medico) REFERENCES medico(id), FOREIGN KEY (id_paciente) REFERENCES paciente(id))";
 
         try {

@@ -43,7 +43,7 @@ public class Reporte {
         return "Reporte{" +
                 ", medico=" + medico.getNombre() +
                 ", paciente=" + paciente.getNombre() +
-                ", tarifa=" + turno.getTarifa(medico,paciente) +
+                ", tarifa=" + turno.getTarifa() +
                 ", fechaDesde=" + fechaDesde +
                 ", fechaHasta=" + fechaHasta +
                 '}';

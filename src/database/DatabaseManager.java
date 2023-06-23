@@ -5,6 +5,7 @@ import model.Medico;
 import model.Paciente;
 import model.Turno;
 
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -97,8 +98,8 @@ import java.util.List;
 
         //create methods
         public void createMedico(Medico medico) throws SQLException {
-            String sqlCheck = "SELECT COUNT(*) FROM medico WHERE nombre = ? AND TARIFA_CONSULTA = ? AND obraSocial = ?";
-            String sql = "INSERT INTO medico(nombre, tarifaConsulta, obraSocial) VALUES(?, ?, ?)";
+            String sqlCheck = "SELECT COUNT(*) FROM medico WHERE nombre = ? AND TARIFA_CONSULTA = ? AND obra_social = ?";
+            String sql = "INSERT INTO medico(nombre, tarifa_consulta, obra_social) VALUES(?, ?, ?)";
             Connection c = getConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -120,9 +121,13 @@ import java.util.List;
                 ps.setString(3, medico.getObraSocial());
 
                 int affectedRows = ps.executeUpdate();
-
+                c.commit();
                 if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo crear el médico");
                     throw new SQLException("Creating medico failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se creo el médico");
                 }
 
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -135,11 +140,12 @@ import java.util.List;
             } finally {
                 close(c, ps, rs);
             }
+            //JOptionPane.showMessageDialog(null, "Se creo el médico");
         }
 
         public void createPaciente(Paciente paciente) throws SQLException {
-            String sqlCheck = "SELECT COUNT(*) FROM paciente WHERE nombre = ? AND obraSocial = ?";
-            String sql = "INSERT INTO paciente(nombre, obraSocial) VALUES(?, ?)";
+            String sqlCheck = "SELECT COUNT(*) FROM paciente WHERE nombre = ? AND obra_social = ?";
+            String sql = "INSERT INTO paciente(nombre, obra_social) VALUES(?, ?)";
             Connection c = getConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -159,9 +165,14 @@ import java.util.List;
                 ps.setString(2, paciente.getObraSocial());
 
                 int affectedRows = ps.executeUpdate();
+                c.commit();
 
                 if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo crear el paciente");
                     throw new SQLException("Creating paciente failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se creo el paciente");
                 }
 
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -177,8 +188,8 @@ import java.util.List;
         }
 
         public void createTurno(Turno turno) throws SQLException {
-            String sqlCheck = "SELECT COUNT(*) FROM turno WHERE medico = ? AND paciente = ? AND fechaHora = ?";
-            String sql = "INSERT INTO turno(medico, paciente, fechaHora) VALUES(?, ?, ?)";
+            String sqlCheck = "SELECT COUNT(*) FROM turno WHERE id_medico = ? AND id_paciente = ? AND fecha_hora = ?";
+            String sql = "INSERT INTO turno(id_medico, id_paciente, fecha_hora, tarifa) VALUES(?, ?, ?, ?)";
             Connection c = getConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -198,11 +209,16 @@ import java.util.List;
                 ps.setLong(1, turno.getMedico().getId());
                 ps.setLong(2, turno.getPaciente().getId());
                 ps.setObject(3, turno.getFechaHora());
-
+                ps.setDouble(4,turno.getTarifa());
                 int affectedRows = ps.executeUpdate();
+                c.commit();
 
                 if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo crear el turno");
                     throw new SQLException("Creating turno failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se creó el turno");
                 }
 
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -219,12 +235,13 @@ import java.util.List;
 
         //update methods
         public void updatePaciente(Paciente paciente) {
-            String sql = "UPDATE paciente SET nombre = ?, dni = ? WHERE id = ?";
+            String sql = "UPDATE paciente SET nombre = ?, obra_social = ? dni = ? WHERE id = ?";
             Connection c = getConnection();
             try {
                 PreparedStatement ps = c.prepareStatement(sql);
                 ps.setString(1, paciente.getNombre());
-                ps.setLong(3, paciente.getId());
+                ps.setString(2, paciente.getObraSocial());
+                ps.setLong(4, paciente.getId());
                 ps.executeUpdate();
                 c.commit();
             } catch (SQLException e) {
@@ -244,13 +261,14 @@ import java.util.List;
         }
 
         public void updateMedico(Medico medico) {
-            String sql = "UPDATE medico SET nombre = ?, obra_social = ? WHERE id = ?";
+            String sql = "UPDATE medico SET nombre = ?, obra_social = ? , tarifa_consulta = ? WHERE id = ?";
             Connection c = getConnection();
             try {
                 PreparedStatement ps = c.prepareStatement(sql);
                 ps.setString(1, medico.getNombre());
                 ps.setString(2, medico.getObraSocial());
-                ps.setLong(3, medico.getId());
+                ps.setDouble(3, medico.getTarifaConsulta());
+                ps.setLong(4, medico.getId());
                 ps.executeUpdate();
                 c.commit();
             } catch (SQLException e) {
@@ -381,8 +399,8 @@ import java.util.List;
                     long id = resultSet.getLong("id");
                     String nombre = resultSet.getString("nombre");
                     double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
-
-                    Medico medico = new Medico(id, nombre, tarifaConsulta);
+                    String obraSocial = resultSet.getString("obra_social");
+                    Medico medico = new Medico(id, nombre, tarifaConsulta,obraSocial);
                     medicos.add(medico);
                 }
             } catch (SQLException e) {
@@ -406,7 +424,7 @@ import java.util.List;
                 while (resultSet.next()) {
                     long id = resultSet.getLong("id");
                     String nombre = resultSet.getString("nombre");
-                    String obraSocial = resultSet.getString("obraSocial");
+                    String obraSocial = resultSet.getString("obra_social");
 
                     Paciente paciente = new Paciente();
                     paciente.setId(id);
@@ -434,15 +452,15 @@ import java.util.List;
 
                 while (resultSet.next()) {
                     long id = resultSet.getLong("id");
-                    long medicoId = resultSet.getLong("medico_id");
-                    long pacienteId = resultSet.getLong("paciente_id");
-                    LocalDate fecha_hora = resultSet.getDate("fecha").toLocalDate();
-
+                    long medicoId = resultSet.getLong("id_medico");
+                    long pacienteId = resultSet.getLong("id_paciente");
+                    LocalDate fecha_hora = resultSet.getDate("fecha_hora").toLocalDate();
+                    double tarifa = resultSet.getDouble("tarifa");
                     Medico medico = getMedicoById(medicoId);
                     Paciente paciente = getPacienteById(pacienteId);
                     LocalDateTime fechaHora = LocalDateTime.of(fecha_hora, LocalTime.MIDNIGHT); // example of setting time to midnight
 
-                    Turno turno = new Turno(medico, paciente, fechaHora);
+                    Turno turno = new Turno(medico, paciente, fechaHora,tarifa);
                     turnos.add(turno);
                 }
             } catch (SQLException e) {
@@ -471,7 +489,7 @@ import java.util.List;
                     String nombre = resultSet.getString("nombre");
                     double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
                     String obraSocial = resultSet.getString("obra_social");
-                    medico = new Medico(id, nombre, tarifaConsulta);
+                    medico = new Medico(id, nombre, tarifaConsulta, obraSocial);
                     medico.setObraSocial(obraSocial);
                 }
             } catch (SQLException e) {
@@ -495,7 +513,7 @@ import java.util.List;
                 if (resultSet.next()) {
                     String nombre = resultSet.getString("nombre");
                     String obraSocial = resultSet.getString("obra_social");
-                    paciente = new Paciente(nombre);
+                    paciente = new Paciente(nombre, obraSocial);
                     paciente.setId(id);
                     paciente.setObraSocial(obraSocial);
                 }
@@ -506,4 +524,5 @@ import java.util.List;
             }
             return paciente;
         }
+
     }
