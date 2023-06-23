@@ -30,8 +30,6 @@ public class SistemaMedicoGUI {
     private JTextField nombreMedicoUpdateField; // Added
     private JTextField obraSocialMedicoUpdateField;
     private JTextField tarifaConsultaUpdateField; // Added
-    private JTextField obraSocialMedicoField;
-    private JTextField obraSocialMedicoUpdateField;
 
     // Components for Paciente tab
     private JTextField nombrePacienteField;
@@ -43,7 +41,6 @@ public class SistemaMedicoGUI {
     private JButton updatePacienteButton; // Added
     private JTextField idPacienteUpdateField; // Added
     private JTextField nombrePacienteUpdateField; // Added
-    private JTextField obraSocialPacienteField;
     private JTextField obraSocialPacienteUpdateField;
 
     // Components for Turno tab
