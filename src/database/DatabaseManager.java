@@ -381,8 +381,8 @@ import java.util.List;
                     long id = resultSet.getLong("id");
                     String nombre = resultSet.getString("nombre");
                     double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
-
-                    Medico medico = new Medico(id, nombre, tarifaConsulta);
+                    String obrasocial= resultSet.getString("obra_social");
+                    Medico medico = new Medico(id, nombre, tarifaConsulta,obrasocial);
                     medicos.add(medico);
                 }
             } catch (SQLException e) {
@@ -407,7 +407,6 @@ import java.util.List;
                     long id = resultSet.getLong("id");
                     String nombre = resultSet.getString("nombre");
                     String obraSocial = resultSet.getString("obraSocial");
-
                     Paciente paciente = new Paciente();
                     paciente.setId(id);
                     paciente.setNombre(nombre);
@@ -471,7 +470,7 @@ import java.util.List;
                     String nombre = resultSet.getString("nombre");
                     double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
                     String obraSocial = resultSet.getString("obra_social");
-                    medico = new Medico(id, nombre, tarifaConsulta);
+                    medico = new Medico(id, nombre, tarifaConsulta,obraSocial);
                     medico.setObraSocial(obraSocial);
                 }
             } catch (SQLException e) {

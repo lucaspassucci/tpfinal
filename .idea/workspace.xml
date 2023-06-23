@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="fixed db">
+    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added update fields to GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Medico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Medico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Paciente.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +32,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2RZtLtZNSvpaEu1siQGbOXOAz08" />
   <component name="ProjectViewState">
@@ -116,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
-      <workItem from="1687524968786" duration="13276000" />
+      <workItem from="1687524968786" duration="14213000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -139,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687548770299</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added update fields to GUI">
+      <created>1687556850406</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687556850406</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,14 +167,15 @@
     <MESSAGE value="added DB url handling" />
     <MESSAGE value="changes in database handling and updated CRUD methods" />
     <MESSAGE value="fixed db" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed db" />
+    <MESSAGE value="added update fields to GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="added update fields to GUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java</url>
-          <line>284</line>
+          <line>283</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

@@ -112,7 +112,7 @@ public class SistemaMedicoGUI {
 
         medicoPanel.add(registroMedicoPanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"ID", "Nombre", "Tarifa de Consulta"};
+        String[] columnNames = {"ID", "Nombre", "Tarifa de Consulta","Obra Social"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         medicosTable = new JTable(model);
         JScrollPane medicosScrollPane = new JScrollPane(medicosTable);
@@ -159,12 +159,11 @@ public class SistemaMedicoGUI {
 
         pacientePanel.add(registroPacientePanel, BorderLayout.NORTH);
 
-        String[] columnNamesPacientes = {"ID", "Nombre"};
+        String[] columnNamesPacientes = {"ID", "Nombre","Obra Social"};
         DefaultTableModel modelPacientes = new DefaultTableModel(columnNamesPacientes, 0);
         pacientesTable = new JTable(modelPacientes);
         JScrollPane pacientesScrollPane = new JScrollPane(pacientesTable);
         pacientePanel.add(pacientesScrollPane, BorderLayout.CENTER);
-
         tabbedPane.addTab("Pacientes", pacientePanel);
 
         // Turno tab
