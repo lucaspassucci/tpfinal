@@ -30,6 +30,8 @@ public class SistemaMedicoGUI {
     private JTextField nombreMedicoUpdateField; // Added
     private JTextField obraSocialMedicoUpdateField;
     private JTextField tarifaConsultaUpdateField; // Added
+    private JTextField obraSocialMedicoField;
+    private JTextField obraSocialMedicoUpdateField;
 
     // Components for Paciente tab
     private JTextField nombrePacienteField;
@@ -41,6 +43,7 @@ public class SistemaMedicoGUI {
     private JButton updatePacienteButton; // Added
     private JTextField idPacienteUpdateField; // Added
     private JTextField nombrePacienteUpdateField; // Added
+    private JTextField obraSocialPacienteField;
     private JTextField obraSocialPacienteUpdateField;
 
     // Components for Turno tab
@@ -104,20 +107,24 @@ public class SistemaMedicoGUI {
         nombreMedicoUpdateField = new JTextField();
         registroMedicoPanel.add(nombreMedicoUpdateField);
 
-        registroMedicoPanel.add(new JLabel("Nuevo Obra Social Médico:"));
-        obraSocialMedicoUpdateField = new JTextField();
-        registroMedicoPanel.add(obraSocialMedicoUpdateField);
-
         registroMedicoPanel.add(new JLabel("Nueva Tarifa Consulta:"));
         tarifaConsultaUpdateField = new JTextField();
         registroMedicoPanel.add(tarifaConsultaUpdateField);
 
         updateMedicoButton = new JButton("Actualizar Médico");
         registroMedicoPanel.add(updateMedicoButton);
+        registroMedicoPanel.add(new JLabel("Obra Social Médico:"));
+        obraSocialMedicoField = new JTextField();
+        registroMedicoPanel.add(obraSocialMedicoField);
+
+        registroMedicoPanel.add(new JLabel("Nueva Obra Social Médico:"));
+        obraSocialMedicoUpdateField = new JTextField();
+        registroMedicoPanel.add(obraSocialMedicoUpdateField);
+
 
         medicoPanel.add(registroMedicoPanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"ID", "Nombre", "Tarifa de Consulta"};
+        String[] columnNames = {"ID", "Nombre", "Tarifa de Consulta","Obra Social"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         medicosTable = new JTable(model);
         JScrollPane medicosScrollPane = new JScrollPane(medicosTable);
@@ -155,21 +162,24 @@ public class SistemaMedicoGUI {
         nombrePacienteUpdateField = new JTextField();
         registroPacientePanel.add(nombrePacienteUpdateField);
 
+        updatePacienteButton = new JButton("Actualizar Paciente");
+        registroPacientePanel.add(updatePacienteButton);
+        registroPacientePanel.add(new JLabel("Obra Social Paciente:"));
+        obraSocialPacienteField = new JTextField();
+        registroPacientePanel.add(obraSocialPacienteField);
+
         registroPacientePanel.add(new JLabel("Nueva Obra Social Paciente:"));
         obraSocialPacienteUpdateField = new JTextField();
         registroPacientePanel.add(obraSocialPacienteUpdateField);
 
-        updatePacienteButton = new JButton("Actualizar Paciente");
-        registroPacientePanel.add(updatePacienteButton);
 
         pacientePanel.add(registroPacientePanel, BorderLayout.NORTH);
 
-        String[] columnNamesPacientes = {"ID", "Nombre"};
+        String[] columnNamesPacientes = {"ID", "Nombre","Obra Social"};
         DefaultTableModel modelPacientes = new DefaultTableModel(columnNamesPacientes, 0);
         pacientesTable = new JTable(modelPacientes);
         JScrollPane pacientesScrollPane = new JScrollPane(pacientesTable);
         pacientePanel.add(pacientesScrollPane, BorderLayout.CENTER);
-
         tabbedPane.addTab("Pacientes", pacientePanel);
 
         // Turno tab

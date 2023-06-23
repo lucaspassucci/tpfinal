@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="changes in database handling and updated CRUD methods">
+    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added update fields to GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sistemamedico.mv.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sistemamedico.mv.db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Reporte.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,9 +28,13 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2RZtLtZNSvpaEu1siQGbOXOAz08" />
   <component name="ProjectViewState">
@@ -53,7 +54,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
@@ -115,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
-      <workItem from="1687524968786" duration="7720000" />
+      <workItem from="1687524968786" duration="14213000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -131,7 +132,21 @@
       <option name="project" value="LOCAL" />
       <updated>1687531489742</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fixed db">
+      <created>1687548770299</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1687548770299</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added update fields to GUI">
+      <created>1687556850406</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687556850406</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,15 +166,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added DB url handling" />
     <MESSAGE value="changes in database handling and updated CRUD methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in database handling and updated CRUD methods" />
+    <MESSAGE value="fixed db" />
+    <MESSAGE value="added update fields to GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="added update fields to GUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/database/DatabaseBuilder.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java</url>
+          <line>283</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
