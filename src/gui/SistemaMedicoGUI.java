@@ -8,6 +8,7 @@ import database.DatabaseManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -237,7 +238,11 @@ public class SistemaMedicoGUI {
             String nombre = nombreMedicoField.getText();
             double tarifaConsulta = Double.parseDouble(tarifaConsultaField.getText());
             Medico medico = new Medico(nombre, tarifaConsulta);
-            databaseManager.createMedico(medico);
+            try {
+                databaseManager.createMedico(medico);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             updateMedicosTable();
         });
 
@@ -259,7 +264,11 @@ public class SistemaMedicoGUI {
         registrarPacienteButton.addActionListener(e -> {
             String nombre = nombrePacienteField.getText();
             Paciente paciente = new Paciente(nombre);
-            databaseManager.createPaciente(paciente);
+            try {
+                databaseManager.createPaciente(paciente);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             updatePacientesTable();
         });
 
@@ -286,7 +295,11 @@ public class SistemaMedicoGUI {
 
             if (medico != null && paciente != null) {
                 Turno turno = new Turno(medico, paciente, fechaHora);  // Fixed here
-                databaseManager.createTurno(turno);
+                try {
+                    databaseManager.createTurno(turno);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
                 // Handle situation where either the medico or paciente could not be found
             }
@@ -307,7 +320,7 @@ public class SistemaMedicoGUI {
 
             if (medico != null && paciente != null) {
                 Turno turno = new Turno(medico, paciente, fechaHora);  // Fixed here
-                databaseManager.updateTurno(turno);
+                //databaseManager.updateTurno(turno);
             } else {
                 // Handle situation where either the medico or paciente could not be found
             }

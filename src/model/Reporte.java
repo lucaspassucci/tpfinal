@@ -1,4 +1,7 @@
 package model;
+
+import java.time.LocalDateTime;
+
 public class Reporte {
     private Medico medico;
     private Turno turno;
@@ -23,18 +26,13 @@ public class Reporte {
         return paciente.getNombre();
     }
 
-    public long getTurnos {
+    public long getTurnos() {
         return turno.getId();
     }
 
     public void setFechaDesde(LocalDateTime fechaDesde) {
         this.fechaDesde = fechaDesde;
     }
-
-    public void setFechaDesde(LocalDateTime fechaHasta) {
-        this.fechaHasta= fechaHasta;
-    }
-
     //falta traer tarifa
 
     @Override

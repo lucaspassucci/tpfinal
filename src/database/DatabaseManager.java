@@ -1,4 +1,5 @@
 package database;
+import java.time.LocalDate;
 
 import model.Medico;
 import model.Paciente;
@@ -6,11 +7,11 @@ import model.Turno;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-public class DatabaseManager {
-    private Connection connection;
+    /*
+    private static Connection connection;
     //private static final String DB_URL = "jdbc:h2:/Users/lucaspassucci/Desktop/sistemamedico.mv.db";
     //url para la mac
     //private static final String DB_URL = "jdbc:h2://Users/lucaspassucci/Desktop/TPfinal/src/sistemamedico";
@@ -32,9 +33,8 @@ public class DatabaseManager {
         if (connection != null) {
             connection.close();
         }
-    }*/
-
-    public static Connection getConnection() { //me conecto y desconecto de la clase
+    }
+        public static Connection getConnection() { //me conecto y desconecto de la clase
         Connection c = null;
         try{
             Class.forName(DB_DRIVER); //recibe el FQN de una clase
@@ -51,370 +51,459 @@ public class DatabaseManager {
             System.exit(0);
         }
     }
+ */
+    public class DatabaseManager {
+        private static final String DB_DRIVER = "org.h2.Driver";
+        private static final String DB_URL = Database.getDbUrl();
+        private static final String USER = "sa";
+        private static final String PASS = "";
 
-    // CRUD Operations for Medico
-
-    public void createMedico(Medico medico) throws ObjetoDuplicadoException{
-        String sql = "INSERT INTO medico(nombre, tarifa_consulta) VALUES(?, ?)";
-        Connection c = connect();
-        //Si lo de abajo funciona lo replicamos en los otros métodos
-        try {
-            Statement s = c.createStatement();
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, medico.getNombre());
-            ps.setDouble(2, medico.getTarifaConsulta());
-            ps.executeUpdate();//puede ser que haya que agregar ''sql'' en el execute
-            c.commit();
-        } catch (SQLException e){
-            try{
+        public static Connection getConnection() {
+            Connection c = null;
+            try {
+                Class.forName(DB_DRIVER);
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-                c.rollback();
-                if(e.getErrorCode() == 23505){  //codigo de error de duplicados segun la primary key de h2, se ve en la documentación
-                    throw new ObjetoDuplicadoException();
+                System.exit(0);
+            }
+            try {
+                c = DriverManager.getConnection(DB_URL, USER, PASS);
+                c.setAutoCommit(false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+            return c;
+        }
+
+        public void close(Connection c, PreparedStatement ps, ResultSet rs) {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (c != null) {
+                try {
+                    c.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+        }
+
+
+        //create methods
+        public void createMedico(Medico medico) throws SQLException {
+            String sqlCheck = "SELECT COUNT(*) FROM medico WHERE nombre = ? AND TARIFA_CONSULTA = ? AND obraSocial = ?";
+            String sql = "INSERT INTO medico(nombre, tarifaConsulta, obraSocial) VALUES(?, ?, ?)";
+            Connection c = getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            try {
+                ps = c.prepareStatement(sqlCheck);
+                ps.setString(1, medico.getNombre());
+                ps.setDouble(2, medico.getTarifaConsulta());
+                ps.setString(3, medico.getObraSocial());
+                rs = ps.executeQuery();
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new SQLException("Duplicate Medico entry.");
                 }
 
-            }catch (SQLException e1){
-                e.printStackTrace();
+                ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, medico.getNombre());
+                ps.setDouble(2, medico.getTarifaConsulta());
+                ps.setString(3, medico.getObraSocial());
+
+                int affectedRows = ps.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating medico failed, no rows affected.");
+                }
+
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        medico.setId(generatedKeys.getLong(1));
+                    } else {
+                        throw new SQLException("Creating medico failed, no ID obtained.");
+                    }
+                }
+            } finally {
+                close(c, ps, rs);
             }
-        } finally{
-            try{
-                c.close();
-            }catch(SQLException e1){
-                e1.printStackTrace();
+        }
+
+        public void createPaciente(Paciente paciente) throws SQLException {
+            String sqlCheck = "SELECT COUNT(*) FROM paciente WHERE nombre = ? AND obraSocial = ?";
+            String sql = "INSERT INTO paciente(nombre, obraSocial) VALUES(?, ?)";
+            Connection c = getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            try {
+                ps = c.prepareStatement(sqlCheck);
+                ps.setString(1, paciente.getNombre());
+                ps.setString(2, paciente.getObraSocial());
+                rs = ps.executeQuery();
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new SQLException("Duplicate Paciente entry.");
+                }
+
+                ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, paciente.getNombre());
+                ps.setString(2, paciente.getObraSocial());
+
+                int affectedRows = ps.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating paciente failed, no rows affected.");
+                }
+
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        paciente.setId((int) generatedKeys.getLong(1));
+                    } else {
+                        throw new SQLException("Creating paciente failed, no ID obtained.");
+                    }
+                }
+            } finally {
+                close(c, ps, rs);
             }
         }
-    }
 
-    public Medico readMedico(long id) {
-        String sql = "SELECT * FROM medico WHERE id = ?";
-        Medico medico = null;
+        public void createTurno(Turno turno) throws SQLException {
+            String sqlCheck = "SELECT COUNT(*) FROM turno WHERE medico = ? AND paciente = ? AND fechaHora = ?";
+            String sql = "INSERT INTO turno(medico, paciente, fechaHora) VALUES(?, ?, ?)";
+            Connection c = getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
 
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            try {
+                ps = c.prepareStatement(sqlCheck);
+                ps.setLong(1, turno.getMedico().getId());
+                ps.setLong(2, turno.getPaciente().getId());
+                ps.setObject(3, turno.getFechaHora());
+                rs = ps.executeQuery();
 
-            pstmt.setLong(1, id);
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new SQLException("Duplicate Turno entry.");
+                }
 
-            ResultSet rs = pstmt.executeQuery();
+                ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setLong(1, turno.getMedico().getId());
+                ps.setLong(2, turno.getPaciente().getId());
+                ps.setObject(3, turno.getFechaHora());
 
-            if (rs.next()) {
-                medico = new Medico();
-                medico.setId(rs.getLong("ID"));
-                medico.setNombre(rs.getString("NOMBRE"));
-                medico.setTarifaConsulta(rs.getDouble("TARIFA_CONSULTA"));
+                int affectedRows = ps.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating turno failed, no rows affected.");
+                }
+
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        turno.setId(generatedKeys.getLong(1));
+                    } else {
+                        throw new SQLException("Creating turno failed, no ID obtained.");
+                    }
+                }
+            } finally {
+                close(c, ps, rs);
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
 
-        return medico;
-    }
-
-    public void updateMedico(Medico medico) {
-        String sql = "UPDATE medico SET nombre = ?, tarifa_consulta = ? WHERE ID = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setString(1, medico.getNombre());
-            pstmt.setDouble(2, medico.getTarifaConsulta());
-            pstmt.setLong(3, medico.getId());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deleteMedico(long id) {
-        String sql = "DELETE FROM medico WHERE id = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    // CRUD Operations for Paciente
-
-    public void createPaciente(Paciente paciente) {
-        String sql = "INSERT INTO paciente(nombre) VALUES(?)";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            pstmt.setString(1, paciente.getNombre());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public Paciente readPaciente(long id) {
-        String sql = "SELECT * FROM paciente WHERE id = ?";
-        Paciente paciente = null;
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                paciente = new Paciente();
-                paciente.setId((int) rs.getLong("ID"));
-                paciente.setNombre(rs.getString("NOMBRE"));
+        //update methods
+        public void updatePaciente(Paciente paciente) {
+            String sql = "UPDATE paciente SET nombre = ?, dni = ? WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setString(1, paciente.getNombre());
+                ps.setLong(3, paciente.getId());
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                try {
+                    e.printStackTrace();
+                    c.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
 
-        return paciente;
-    }
-
-    public void updatePaciente(Paciente paciente) {
-        String sql = "UPDATE paciente SET nombre = ? WHERE id = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setString(1, paciente.getNombre());
-            pstmt.setLong(2, paciente.getId());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deletePaciente(long id) {
-        String sql = "DELETE FROM paciente WHERE id = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    // CRUD Operations for Turno
-
-    public void createTurno(Turno turno) {
-        String sql = "INSERT INTO turno(id_medico, id_paciente, fecha_hora) VALUES(?, ?, ?)";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            pstmt.setLong(1, turno.getMedico().getId());
-            pstmt.setLong(2, turno.getPaciente().getId());
-            pstmt.setTimestamp(3, Timestamp.valueOf(turno.getFechaHora()));
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public Turno readTurno(long id) {
-        String sql = "SELECT * FROM turno WHERE id = ?";
-        Turno turno = null;
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                turno = new Turno();
-                turno.setId(rs.getLong("ID"));
-                turno.setMedico(readMedico(rs.getLong("ID_MEDICO")));
-                turno.setPaciente(readPaciente(rs.getLong("ID_PACIENTE")));
-                turno.setFechaHora(rs.getTimestamp("FECHA_HORA").toLocalDateTime());
+        public void updateMedico(Medico medico) {
+            String sql = "UPDATE medico SET nombre = ?, obra_social = ? WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setString(1, medico.getNombre());
+                ps.setString(2, medico.getObraSocial());
+                ps.setLong(3, medico.getId());
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                try {
+                    e.printStackTrace();
+                    c.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
 
-        return turno;
-    }
-
-    public void updateTurno(Turno turno) {
-        String sql = "UPDATE turno SET id_medico = ?, id_paciente = ?, fecha_hora = ? WHERE ID = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, turno.getMedico().getId());
-            pstmt.setLong(2, turno.getPaciente().getId());
-            pstmt.setTimestamp(3, Timestamp.valueOf(turno.getFechaHora()));
-            pstmt.setLong(4, turno.getId());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deleteTurno(long id) {
-        String sql = "DELETE FROM turno WHERE id = ?";
-
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public Medico getMedicoById(long id) {
-        Medico medico = null;
-
-        String sql = "SELECT * FROM medico WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                double tarifaConsulta = rs.getDouble("tarifa_consulta");
-
-                medico = new Medico(id, nombre, tarifaConsulta);
+        /*
+        public void updateTurno(Turno turno) {
+            String sql = "UPDATE turno SET medico_id = ?, paciente_id = ?, fecha_hora = ? WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setLong(1, turno.getMedicoId());
+                ps.setLong(2, turno.getPacienteId());
+                ps.setDate(3, java.sql.Date.valueOf(turno.getFechaHora()));
+                ps.setLong(5, turno.getId());
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e){
+                try{
+                    e.printStackTrace();
+                    c.rollback();
+                }catch (SQLException e1){
+                    e1.printStackTrace();
+                }
+            } finally{
+                try{
+                    c.close();
+                }catch(SQLException e1){
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener el médico por ID: " + e.getMessage());
         }
-
-        return medico;
-    }
-
-    public Paciente getPacienteById(long id) {
-        Paciente paciente = null;
-
-        String sql = "SELECT * FROM paciente WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                String nombre = rs.getString("nombre");
-
-                paciente = new Paciente(nombre);
+         */
+        //delete methods
+        public void deletePaciente(long id) {
+            String sql = "DELETE FROM paciente WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setLong(1, id);
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                try {
+                    e.printStackTrace();
+                    c.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener el paciente por ID: " + e.getMessage());
         }
 
-        return paciente;
-    }
-
-    public Turno getTurnoById(long id) {
-        Turno turno = null;
-
-        String sql = "SELECT * FROM turno WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                long idMedico = rs.getLong("id_medico");
-                long idPaciente = rs.getLong("id_paciente");
-                LocalDateTime fechaHora = rs.getTimestamp("fecha_hora").toLocalDateTime();
-
-                Medico medico = getMedicoById(idMedico);
-                Paciente paciente = getPacienteById(idPaciente);
-
-                turno = new Turno(medico, paciente, fechaHora);
+        public void deleteMedico(long id) {
+            String sql = "DELETE FROM medico WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setLong(1, id);
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                try {
+                    e.printStackTrace();
+                    c.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener el turno por ID: " + e.getMessage());
         }
 
-        return turno;
-    }
-
-    public List<Medico> getAllMedicos() {
-        List<Medico> medicos = new ArrayList<>();
-
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM medico")) {
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String nombre = resultSet.getString("nombre");
-                double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
-
-                Medico medico = new Medico(id, nombre, tarifaConsulta);
-                medicos.add(medico);
+        public void deleteTurno(long id) {
+            String sql = "DELETE FROM turno WHERE id = ?";
+            Connection c = getConnection();
+            try {
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setLong(1, id);
+                ps.executeUpdate();
+                c.commit();
+            } catch (SQLException e) {
+                try {
+                    e.printStackTrace();
+                    c.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener los médicos: " + e.getMessage());
         }
 
-        return medicos;
-    }
+        //getall methods
+        public List<Medico> getAllMedicos() {
+            List<Medico> medicos = new ArrayList<>();
+            Connection connection = getConnection();
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery("SELECT * FROM medico")) {
 
+                while (resultSet.next()) {
+                    long id = resultSet.getLong("id");
+                    String nombre = resultSet.getString("nombre");
+                    double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
 
-    public List<Paciente> getAllPacientes() {
-        List<Paciente> pacientes = new ArrayList<>();
-
-        String sql = "SELECT * FROM paciente";
-
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String nombre = resultSet.getString("nombre");
-
-                Paciente paciente = new Paciente(nombre);
-                pacientes.add(paciente);
+                    Medico medico = new Medico(id, nombre, tarifaConsulta);
+                    medicos.add(medico);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al obtener los médicos: " + e.getMessage());
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener los pacientes: " + e.getMessage());
+            return medicos;
         }
 
-        return pacientes;
-    }
+        public List<Paciente> getAllPacientes() {
+            List<Paciente> pacientes = new ArrayList<>();
+            Connection connection = getConnection();
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery("SELECT * FROM paciente")) {
 
-    public List<Turno> getAllTurnos() {
-        List<Turno> turnos = new ArrayList<>();
+                while (resultSet.next()) {
+                    long id = resultSet.getLong("id");
+                    String nombre = resultSet.getString("nombre");
+                    String obraSocial = resultSet.getString("obraSocial");
 
-        String sql = "SELECT * FROM turno";
-
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                long idMedico = resultSet.getLong("id_medico");
-                long idPaciente = resultSet.getLong("id_paciente");
-                LocalDateTime fechaHora = resultSet.getTimestamp("fecha_hora").toLocalDateTime();
-
-                Medico medico = getMedicoById(idMedico);
-                Paciente paciente = getPacienteById(idPaciente);
-
-                Turno turno = new Turno(medico, paciente, fechaHora);
-                turnos.add(turno);
+                    Paciente paciente = new Paciente();
+                    paciente.setId(id);
+                    paciente.setNombre(nombre);
+                    paciente.setObraSocial(obraSocial);
+                    pacientes.add(paciente);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al obtener los pacientes: " + e.getMessage());
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener los turnos: " + e.getMessage());
+            return pacientes;
         }
 
-        return turnos;
+        public List<Turno> getAllTurnos() {
+            List<Turno> turnos = new ArrayList<>();
+            Connection connection = getConnection();
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery("SELECT * FROM turno")) {
+
+                while (resultSet.next()) {
+                    long id = resultSet.getLong("id");
+                    long medicoId = resultSet.getLong("medico_id");
+                    long pacienteId = resultSet.getLong("paciente_id");
+                    LocalDate fecha_hora = resultSet.getDate("fecha").toLocalDate();
+
+                    Medico medico = getMedicoById(medicoId);
+                    Paciente paciente = getPacienteById(pacienteId);
+                    LocalDateTime fechaHora = LocalDateTime.of(fecha_hora, LocalTime.MIDNIGHT); // example of setting time to midnight
+
+                    Turno turno = new Turno(medico, paciente, fechaHora);
+                    turnos.add(turno);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al obtener los turnos: " + e.getMessage());
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return turnos;
+        }
+
+        public Medico getMedicoById(long id) {
+            Medico medico = null;
+            Connection connection = getConnection();
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+            try {
+                String sql = "SELECT * FROM medico WHERE id = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setLong(1, id);
+                resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    String nombre = resultSet.getString("nombre");
+                    double tarifaConsulta = resultSet.getDouble("tarifa_consulta");
+                    String obraSocial = resultSet.getString("obra_social");
+                    medico = new Medico(id, nombre, tarifaConsulta);
+                    medico.setObraSocial(obraSocial);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al obtener el medico: " + e.getMessage());
+            } finally {
+                close(connection, statement, resultSet);
+            }
+            return medico;
+        }
+
+        public Paciente getPacienteById(long id) {
+            Paciente paciente = null;
+            Connection connection = getConnection();
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+            try {
+                String sql = "SELECT * FROM paciente WHERE id = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setLong(1, id);
+                resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    String nombre = resultSet.getString("nombre");
+                    String obraSocial = resultSet.getString("obra_social");
+                    paciente = new Paciente(nombre);
+                    paciente.setId(id);
+                    paciente.setObraSocial(obraSocial);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al obtener el paciente: " + e.getMessage());
+            } finally {
+                close(connection, statement, resultSet);
+            }
+            return paciente;
+        }
     }
-}

@@ -55,8 +55,9 @@ public class Medico {
         return "Medico{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", tarifaConsulta=" + tarifaConsulta '\'' +
-                ", obra social='" + obraSocial +
+                ", tarifaConsulta=" + tarifaConsulta + '\'' +
+                ", obraSocial='" + obraSocial +
                 '}';
     }
+
 }
