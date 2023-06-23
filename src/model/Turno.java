@@ -6,6 +6,7 @@ public class Turno {
     private Medico medico;
     private Paciente paciente;
     private LocalDateTime fechaHora;
+    private double tarifa;
 
     public Turno(Medico medico, Paciente paciente, LocalDateTime fechaHora) {
         this.medico = medico;
@@ -55,19 +56,17 @@ public class Turno {
         this.fechaHora = fechaHora;
     }
 
-    /*public double getTarifa(Medico medico, Paciente paciente) { //no sé si hace falta enviar Paciente como parámetro
+    public double getTarifa(Medico medico, Paciente paciente) {
+        this.tarifa = medico.getTarifaConsulta();
         if((medico.getObraSocial()).equals(paciente.getObraSocial()))
         {
-            return medico.tarifaConsulta*0.5;
+            tarifa= tarifa*0.5;
         }
-        else
-        {
-            return medico.tarifaConsulta;
-        }
+        return tarifa;
     }
-    /*
-     */
-/*
+
+
+
     @Override
     public String toString() {
         return "Turno{" +
@@ -78,6 +77,4 @@ public class Turno {
                 ", tarifa=" + getTarifa(medico,paciente) +
                 '}';
     }
-    */
-
 }

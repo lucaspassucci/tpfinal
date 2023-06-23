@@ -18,11 +18,11 @@ public class Reporte {
     public Reporte () {
     }
 
-    public long getNombreMedico() {
+    public String getNombreMedico() {
         return medico.getNombre();
     }
 
-    public long getNombrePaciente() {
+    public String getNombrePaciente() {
         return paciente.getNombre();
     }
 
@@ -33,13 +33,17 @@ public class Reporte {
     public void setFechaDesde(LocalDateTime fechaDesde) {
         this.fechaDesde = fechaDesde;
     }
-    //falta traer tarifa
+
+    public void setFechaHasta(LocalDateTime fechaHasta) {
+        this.fechaHasta = fechaHasta;
+    }
 
     @Override
     public String toString() {
         return "Reporte{" +
-                "nombre=" + nombre +
-                ", medico=" + medico +
+                ", medico=" + medico.getNombre() +
+                ", paciente=" + paciente.getNombre() +
+                ", tarifa=" + turno.getTarifa(medico,paciente) +
                 ", fechaDesde=" + fechaDesde +
                 ", fechaHasta=" + fechaHasta +
                 '}';
