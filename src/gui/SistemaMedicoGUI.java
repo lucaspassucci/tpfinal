@@ -28,6 +28,8 @@ public class SistemaMedicoGUI {
     private JTextField idMedicoUpdateField; // Added
     private JTextField nombreMedicoUpdateField; // Added
     private JTextField tarifaConsultaUpdateField; // Added
+    private JTextField obraSocialMedicoField;
+    private JTextField obraSocialMedicoUpdateField;
 
     // Components for Paciente tab
     private JTextField nombrePacienteField;
@@ -38,6 +40,8 @@ public class SistemaMedicoGUI {
     private JButton updatePacienteButton; // Added
     private JTextField idPacienteUpdateField; // Added
     private JTextField nombrePacienteUpdateField; // Added
+    private JTextField obraSocialPacienteField;
+    private JTextField obraSocialPacienteUpdateField;
 
     // Components for Turno tab
     private JTextField idMedicoField;
@@ -73,21 +77,16 @@ public class SistemaMedicoGUI {
         registroMedicoPanel.add(new JLabel("Nombre Médico:"));
         nombreMedicoField = new JTextField();
         registroMedicoPanel.add(nombreMedicoField);
-
         registroMedicoPanel.add(new JLabel("Tarifa Consulta:"));
         tarifaConsultaField = new JTextField();
         registroMedicoPanel.add(tarifaConsultaField);
-
         registrarMedicoButton = new JButton("Registrar Médico");
         registroMedicoPanel.add(registrarMedicoButton);
-
         registroMedicoPanel.add(new JLabel("ID Médico para borrar:"));
         idMedicoDeleteField = new JTextField();
         registroMedicoPanel.add(idMedicoDeleteField);
-
         deleteMedicoButton = new JButton("Borrar Médico");
         registroMedicoPanel.add(deleteMedicoButton);
-
         registroMedicoPanel.add(new JLabel("ID Médico para actualizar:"));
         idMedicoUpdateField = new JTextField();
         registroMedicoPanel.add(idMedicoUpdateField);
@@ -102,6 +101,14 @@ public class SistemaMedicoGUI {
 
         updateMedicoButton = new JButton("Actualizar Médico");
         registroMedicoPanel.add(updateMedicoButton);
+        registroMedicoPanel.add(new JLabel("Obra Social Médico:"));
+        obraSocialMedicoField = new JTextField();
+        registroMedicoPanel.add(obraSocialMedicoField);
+
+        registroMedicoPanel.add(new JLabel("Nueva Obra Social Médico:"));
+        obraSocialMedicoUpdateField = new JTextField();
+        registroMedicoPanel.add(obraSocialMedicoUpdateField);
+
 
         medicoPanel.add(registroMedicoPanel, BorderLayout.NORTH);
 
@@ -141,6 +148,14 @@ public class SistemaMedicoGUI {
 
         updatePacienteButton = new JButton("Actualizar Paciente");
         registroPacientePanel.add(updatePacienteButton);
+        registroPacientePanel.add(new JLabel("Obra Social Paciente:"));
+        obraSocialPacienteField = new JTextField();
+        registroPacientePanel.add(obraSocialPacienteField);
+
+        registroPacientePanel.add(new JLabel("Nueva Obra Social Paciente:"));
+        obraSocialPacienteUpdateField = new JTextField();
+        registroPacientePanel.add(obraSocialPacienteUpdateField);
+
 
         pacientePanel.add(registroPacientePanel, BorderLayout.NORTH);
 
@@ -237,7 +252,8 @@ public class SistemaMedicoGUI {
         registrarMedicoButton.addActionListener(e -> {
             String nombre = nombreMedicoField.getText();
             double tarifaConsulta = Double.parseDouble(tarifaConsultaField.getText());
-            Medico medico = new Medico(nombre, tarifaConsulta);
+            String obraSocial = obraSocialMedicoField.getText();
+            Medico medico = new Medico(nombre, tarifaConsulta, obraSocial);
             try {
                 databaseManager.createMedico(medico);
             } catch (SQLException ex) {
@@ -256,14 +272,15 @@ public class SistemaMedicoGUI {
             int idMedico = Integer.parseInt(idMedicoUpdateField.getText());
             String nombre = nombreMedicoUpdateField.getText();
             double tarifaConsulta = Double.parseDouble(tarifaConsultaUpdateField.getText());
-            Medico medico = new Medico(idMedico, nombre, tarifaConsulta);
+            String obraSocial = obraSocialMedicoUpdateField.getText();
+            Medico medico = new Medico(idMedico, nombre, tarifaConsulta, obraSocial);
             databaseManager.updateMedico(medico);
             updateMedicosTable();
         });
 
         registrarPacienteButton.addActionListener(e -> {
-            String nombre = nombrePacienteField.getText();
-            Paciente paciente = new Paciente(nombre);
+            String nombre = nombrePacienteField.getText();String obraSocial = obraSocialPacienteField.getText();
+            Paciente paciente = new Paciente(nombre, obraSocial);
             try {
                 databaseManager.createPaciente(paciente);
             } catch (SQLException ex) {
@@ -281,7 +298,8 @@ public class SistemaMedicoGUI {
         updatePacienteButton.addActionListener(e -> {
             int idPaciente = Integer.parseInt(idPacienteUpdateField.getText());
             String nombre = nombrePacienteUpdateField.getText();
-            Paciente paciente = new Paciente(nombre);
+            String obraSocial = obraSocialPacienteUpdateField.getText();
+            Paciente paciente = new Paciente(nombre, obraSocial);
             databaseManager.updatePaciente(paciente);
             updatePacientesTable();
         });

@@ -8,14 +8,16 @@ public class Medico {
         // Constructor sin argumentos
     }
 
-    public Medico(long id, String nombre, double tarifaConsulta) {
+    public Medico(long id, String nombre, double tarifaConsulta, String obraSocial) {
         this.id = id;
         this.nombre = nombre;
         this.tarifaConsulta = tarifaConsulta;
+        this.obraSocial = obraSocial;
     }
-    public Medico(String nombre, double tarifaConsulta) {
+    public Medico(String nombre, double tarifaConsulta, String obraSocial) {
         this.nombre = nombre;
         this.tarifaConsulta = tarifaConsulta;
+        this.obraSocial=obraSocial;
     }
 
     public long getId() {

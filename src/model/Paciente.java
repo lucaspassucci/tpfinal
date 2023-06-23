@@ -6,8 +6,10 @@
         private String obraSocial;
         // other fields...
 
-        public Paciente(String nombre) {
+        public Paciente(String nombre, String obraSocial) {
+
             this.nombre = nombre;
+            this.obraSocial=obraSocial;
         }
 
         public Paciente() {

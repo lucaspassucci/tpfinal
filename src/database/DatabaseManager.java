@@ -97,8 +97,8 @@ import java.util.List;
 
         //create methods
         public void createMedico(Medico medico) throws SQLException {
-            String sqlCheck = "SELECT COUNT(*) FROM medico WHERE nombre = ? AND TARIFA_CONSULTA = ? AND obraSocial = ?";
-            String sql = "INSERT INTO medico(nombre, tarifaConsulta, obraSocial) VALUES(?, ?, ?)";
+            String sqlCheck = "SELECT COUNT(*) FROM medico WHERE nombre = ? AND TARIFA_CONSULTA = ? AND obra_social = ?";
+            String sql = "INSERT INTO medico(nombre, TARIFA_CONSULTA, obra_social) VALUES(?, ?, ?)";
             Connection c = getConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -138,7 +138,7 @@ import java.util.List;
         }
 
         public void createPaciente(Paciente paciente) throws SQLException {
-            String sqlCheck = "SELECT COUNT(*) FROM paciente WHERE nombre = ? AND obraSocial = ?";
+            String sqlCheck = "SELECT COUNT(*) FROM paciente WHERE nombre = ? AND obra_social = ?";
             String sql = "INSERT INTO paciente(nombre, obraSocial) VALUES(?, ?)";
             Connection c = getConnection();
             PreparedStatement ps = null;
@@ -495,7 +495,7 @@ import java.util.List;
                 if (resultSet.next()) {
                     String nombre = resultSet.getString("nombre");
                     String obraSocial = resultSet.getString("obra_social");
-                    paciente = new Paciente(nombre);
+                    paciente = new Paciente(nombre,obraSocial);
                     paciente.setId(id);
                     paciente.setObraSocial(obraSocial);
                 }
