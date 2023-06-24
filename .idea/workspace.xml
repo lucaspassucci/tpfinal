@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added update fields to GUI">
+    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added update fields to GUI and table update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +115,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
-      <workItem from="1687524968786" duration="14213000" />
+      <workItem from="1687524968786" duration="17372000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -146,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687556850406</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added update fields to GUI and table update">
+      <created>1687557746404</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1687557746404</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,14 +174,15 @@
     <MESSAGE value="changes in database handling and updated CRUD methods" />
     <MESSAGE value="fixed db" />
     <MESSAGE value="added update fields to GUI" />
-    <option name="LAST_COMMIT_MESSAGE" value="added update fields to GUI" />
+    <MESSAGE value="added update fields to GUI and table update" />
+    <option name="LAST_COMMIT_MESSAGE" value="added update fields to GUI and table update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java</url>
-          <line>283</line>
+          <line>255</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
