@@ -4,11 +4,13 @@ import model.Medico;
 import model.Paciente;
 import model.Turno;
 import database.DatabaseManager;
+import org.h2.result.FetchedResult;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -211,8 +213,23 @@ public class SistemaMedicoGUI {
         consultaReportPanel.add(fechaHastaReportField);
         consultarReportButton = new JButton("Consultar Reporte");
         consultarReportButton.addActionListener(e -> { //agregar id medico, fecha desde fecha hasta
-            updateReporteTable();
-        });
+            int idMedico = Integer.parseInt(idMedicoReportField.getText());
+            LocalDateTime fechaDesde = LocalDateTime.parse(fechaDesdeReportField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime fechaHasta = LocalDateTime.parse(fechaHastaReportField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+            Medico medico = databaseManager.getMedicoById(idMedico);
+
+            if (medico != null) {
+                updateReporteTable(medico, fechaDesde, fechaHasta);
+            } else {
+                // Handle situation where medico could not be found
+            }
+
+            idMedicoReportField.setText("");
+            fechaDesdeReportField.setText("");
+            fechaHastaReportField.setText("");
+            }
+        );
         consultaReportPanel.add(consultarReportButton);
         reportPanel.add(consultaReportPanel, BorderLayout.NORTH);
         String[] columnNamesReportes = {"IDTurno", "Nombre Medico Asignado", "Nombre Paciente asignado","Tarifa consulta", "Fecha"};
@@ -358,11 +375,10 @@ public class SistemaMedicoGUI {
         }
     }
 
-    private void updateReporteTable() {
+    private void updateReporteTable(Medico medico, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
         DefaultTableModel model = (DefaultTableModel) reportesTable.getModel();
         model.setRowCount(0); // Clear current table contents
-
-        List<Turno> turnos = databaseManager.getAllTurnos();
+        List<Turno> turnos = databaseManager.getAllTurnos(medico,fechaDesde,fechaHasta);
 
         for (Turno turno : turnos) {
             Object[] row = {turno.getId(), turno.getMedico().getNombre(), turno.getPaciente().getNombre(),turno.getTarifa(), turno.getFechaHora()};

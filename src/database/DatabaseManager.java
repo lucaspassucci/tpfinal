@@ -445,11 +445,28 @@ import java.util.List;
         }
 
         public List<Turno> getAllTurnos() {
+            return this.getAllTurnos(null, null, null) ;
+        };
+        //Se utiliza para traer turnos y reportes
+        public List<Turno> getAllTurnos(Medico medicoParam, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
             List<Turno> turnos = new ArrayList<>();
             Connection connection = getConnection();
-            try (Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery("SELECT * FROM turno")) {
+            String sql = "SELECT * FROM turno";
+            PreparedStatement ps = null;
 
+            if(medicoParam != null){
+                sql = "SELECT * FROM turno WHERE id_medico = ? AND fecha_hora BETWEEN ? AND ?";
+            }
+            try {
+                //Statement statement = connection.createStatement()
+                //ResultSet resultSet = statement.executeQuery(sql);
+                ps = connection.prepareStatement(sql);
+                if(medicoParam != null) {
+                    ps.setLong(1, medicoParam.getId());
+                    ps.setObject(2, fechaDesde);
+                    ps.setObject(3, fechaHasta);
+                }
+                ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     long id = resultSet.getLong("id");
                     long medicoId = resultSet.getLong("id_medico");
@@ -460,7 +477,7 @@ import java.util.List;
                     Paciente paciente = getPacienteById(pacienteId);
                     LocalDateTime fechaHora = LocalDateTime.of(fecha_hora, LocalTime.MIDNIGHT); // example of setting time to midnight
 
-                    Turno turno = new Turno(medico, paciente, fechaHora,tarifa);
+                    Turno turno = new Turno(medicoParam==null? medico : medicoParam, paciente, fechaHora,tarifa);
                     turnos.add(turno);
                 }
             } catch (SQLException e) {
