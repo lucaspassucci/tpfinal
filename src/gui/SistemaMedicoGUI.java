@@ -249,11 +249,15 @@ public class SistemaMedicoGUI {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+            nombreMedicoField.setText("");
+            tarifaConsultaField.setText("");
+            obraSocialMedicoField.setText("");
             updateMedicosTable();
         });
         deleteMedicoButton.addActionListener(e -> {
             int idMedico = Integer.parseInt(idMedicoDeleteField.getText());
             databaseManager.deleteMedico(idMedico);
+            idMedicoField.setText("");
             updateMedicosTable();
         });
         updateMedicoButton.addActionListener(e -> {
@@ -263,6 +267,11 @@ public class SistemaMedicoGUI {
             String obraSocial = obraSocialMedicoUpdateField.getText();
             Medico medico = new Medico(idMedico, nombre, tarifaConsulta, obraSocial);
             databaseManager.updateMedico(medico);
+            idMedicoUpdateField.setText("");
+            nombreMedicoUpdateField.setText("");
+            tarifaConsultaUpdateField.setText("");
+            obraSocialPacienteUpdateField.setText("");
+
             updateMedicosTable();
         });
         registrarPacienteButton.addActionListener(e -> {
@@ -274,12 +283,17 @@ public class SistemaMedicoGUI {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+            nombrePacienteField.setText("");
+            obraSocialPacienteField.setText("");
+
             updatePacientesTable();
         });
 
         deletePacienteButton.addActionListener(e -> {
             int idPaciente = Integer.parseInt(idPacienteDeleteField.getText());
             databaseManager.deletePaciente(idPaciente);
+            idPacienteDeleteField.setText("");
+
             updatePacientesTable();
         });
 
@@ -289,6 +303,8 @@ public class SistemaMedicoGUI {
             String obraSocial = obraSocialPacienteUpdateField.getText();
             Paciente paciente = new Paciente(nombre,obraSocial);
             databaseManager.updatePaciente(paciente);
+            nombrePacienteUpdateField.setText("");
+            obraSocialMedicoUpdateField.setText("");
             updatePacientesTable();
         });
         registrarTurnoButton.addActionListener(e -> {
@@ -354,7 +370,6 @@ public class SistemaMedicoGUI {
     private void updatePacientesTable() {
         DefaultTableModel model = (DefaultTableModel) pacientesTable.getModel();
         model.setRowCount(0); // Clear current table contents
-
         List<Paciente> pacientes = databaseManager.getAllPacientes();
 
         for (Paciente paciente : pacientes) {
