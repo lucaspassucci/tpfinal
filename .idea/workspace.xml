@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="updated gui">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +115,7 @@
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
       <workItem from="1687524968786" duration="17623000" />
-      <workItem from="1687568230809" duration="320000" />
+      <workItem from="1687568230809" duration="792000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -160,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687568096024</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="updated gui">
+      <created>1687568565815</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1687568565815</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,16 +191,5 @@
     <MESSAGE value="added update fields to GUI and table update" />
     <MESSAGE value="updated gui" />
     <option name="LAST_COMMIT_MESSAGE" value="updated gui" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java</url>
-          <line>272</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

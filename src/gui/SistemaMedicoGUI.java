@@ -79,7 +79,7 @@ public class SistemaMedicoGUI {
         // Medico tab
         JPanel medicoPanel = new JPanel(new BorderLayout());
         medicoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  // added padding
-        JPanel registroMedicoPanel = new JPanel(new GridLayout(8, 3));
+        JPanel registroMedicoPanel = new JPanel(new GridLayout(8, 2));
         registroMedicoPanel.add(new JLabel("Nombre Médico:"));
         nombreMedicoField = new JTextField();
         registroMedicoPanel.add(nombreMedicoField);
@@ -212,7 +212,7 @@ public class SistemaMedicoGUI {
         fechaHastaReportField = new JTextField();
         consultaReportPanel.add(fechaHastaReportField);
         consultarReportButton = new JButton("Consultar Reporte");
-        consultarReportButton.addActionListener(e -> { //agregar id medico, fecha desde fecha hasta
+        consultarReportButton.addActionListener(e -> {
             int idMedico = Integer.parseInt(idMedicoReportField.getText());
             LocalDateTime fechaDesde = LocalDateTime.parse(fechaDesdeReportField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             LocalDateTime fechaHasta = LocalDateTime.parse(fechaHastaReportField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -222,7 +222,7 @@ public class SistemaMedicoGUI {
             if (medico != null) {
                 updateReporteTable(medico, fechaDesde, fechaHasta);
             } else {
-                // Handle situation where medico could not be found
+
             }
 
             idMedicoReportField.setText("");
