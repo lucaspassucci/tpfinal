@@ -242,8 +242,15 @@ import java.util.List;
                 ps.setString(1, paciente.getNombre());
                 ps.setString(2, paciente.getObraSocial());
                 ps.setLong(4, paciente.getId());
-                ps.executeUpdate();
+                int affectedRows = ps.executeUpdate();
                 c.commit();
+                if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo actualizar el paciente");
+                    throw new SQLException("updating paciente failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se actualizo el paciente");
+                }
             } catch (SQLException e) {
                 try {
                     e.printStackTrace();
@@ -269,8 +276,15 @@ import java.util.List;
                 ps.setString(2, medico.getObraSocial());
                 ps.setDouble(3, medico.getTarifaConsulta());
                 ps.setLong(4, medico.getId());
-                ps.executeUpdate();
+                int affectedRows = ps.executeUpdate();
                 c.commit();
+                if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo actualizar el medico");
+                    throw new SQLException("updating medico failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se actualizo el medico");
+                }
             } catch (SQLException e) {
                 try {
                     e.printStackTrace();
@@ -322,8 +336,15 @@ import java.util.List;
             try {
                 PreparedStatement ps = c.prepareStatement(sql);
                 ps.setLong(1, id);
-                ps.executeUpdate();
+                int affectedRows = ps.executeUpdate();
                 c.commit();
+                if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo borrar el paciente");
+                    throw new SQLException("delete paciente failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se bobrro el paciente");
+                }
             } catch (SQLException e) {
                 try {
                     e.printStackTrace();
@@ -346,8 +367,15 @@ import java.util.List;
             try {
                 PreparedStatement ps = c.prepareStatement(sql);
                 ps.setLong(1, id);
-                ps.executeUpdate();
+                int affectedRows = ps.executeUpdate();
                 c.commit();
+                if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo borrar el medico");
+                    throw new SQLException("deleting medico  failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se borro el medico");
+                }
             } catch (SQLException e) {
                 try {
                     e.printStackTrace();
@@ -370,8 +398,15 @@ import java.util.List;
             try {
                 PreparedStatement ps = c.prepareStatement(sql);
                 ps.setLong(1, id);
-                ps.executeUpdate();
+                int affectedRows = ps.executeUpdate();
                 c.commit();
+                if (affectedRows == 0) {
+                    JOptionPane.showMessageDialog(null, "No se pudo borrar el turno");
+                    throw new SQLException("deleting turno failed, no rows affected.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Se borro el turno");
+                }
             } catch (SQLException e) {
                 try {
                     e.printStackTrace();

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="added update fields to GUI and table update">
+    <list default="true" id="b669df86-3868-4ff0-afe0-9f539a044d36" name="Changes" comment="updated gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/sistemamedico.mv.db.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DatabaseManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +28,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,30 +40,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "20",
-    "last_opened_file_path": "/Users/lucaspassucci/Desktop/Laboratorio I - UP/tpfinal/src/database",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;20&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lucaspassucci/Desktop/Laboratorio I - UP/tpfinal/src/database&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "h2"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;h2&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/database" />
@@ -115,7 +115,8 @@
       <option name="presentableId" value="Default" />
       <updated>1687469378823</updated>
       <workItem from="1687469379875" duration="1100000" />
-      <workItem from="1687524968786" duration="17372000" />
+      <workItem from="1687524968786" duration="17623000" />
+      <workItem from="1687568230809" duration="320000" />
     </task>
     <task id="LOCAL-00001" summary="added DB url handling">
       <created>1687469883382</created>
@@ -152,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687557746404</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="updated gui">
+      <created>1687568096024</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1687568096024</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,14 +183,15 @@
     <MESSAGE value="fixed db" />
     <MESSAGE value="added update fields to GUI" />
     <MESSAGE value="added update fields to GUI and table update" />
-    <option name="LAST_COMMIT_MESSAGE" value="added update fields to GUI and table update" />
+    <MESSAGE value="updated gui" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated gui" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gui/SistemaMedicoGUI.java</url>
-          <line>255</line>
+          <line>272</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
